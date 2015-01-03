@@ -29,7 +29,7 @@ struct Array
 	};
 	~Array()
 	{
-		//if (arr) delete[] arr;
+		if (arr) delete[] arr;
 	};
 
 	T& operator[](int n)
@@ -87,7 +87,7 @@ private:
 
 		// Fase Way using std :: copy 
 		//copy_backward(a.arr + i, a.arr + n, a.arr + n + 1);
-		copy(a.arr + i, a.arr + n, a.arr + i - 1);
+		copy(a.arr + i, a.arr + n, a.arr + i + 1);
 
 		a[i] = t;
 		
@@ -95,10 +95,13 @@ private:
 	}
 	void Remove(int i)
 	{
-		for ( int j = i; j < n ; ++j )
-		{
-			a[j] = a[j + 1];
-		}
+		// Traditional Way : for loop
+		//for ( int j = i; j < n ; ++j )
+		//	a[j] = a[j + 1];
+
+		// Faseway : using std::copy
+		copy_backward(a.arr + i + 1, a.arr + n, a.arr + i);
+
 		--n;
 
 		if (a.length > 3*n)
