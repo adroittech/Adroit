@@ -12,27 +12,15 @@
 using namespace std;
 
 template<typename T>
-class Arrayinterface
-{
-	T		Get(int)	= 0;
-	void	Set(int, T) = 0;
-
-	void	Add(int, T) = 0;
-	void	Remove(int) = 0;
-
-	void	Resize() = 0;
-};
-
-template<typename T>
-struct Array //: public Arrayinterface<T>
+struct Array
 {
 	T*		arr;
 	int		length;
 	
 	Array()
 	{
-		arr = new T[10];
-		length = 10;
+		arr = new T[2];
+		length = 2;
 	};
 	Array(int size)
 	{
@@ -41,7 +29,7 @@ struct Array //: public Arrayinterface<T>
 	};
 	~Array()
 	{
-		if (arr) delete[] arr;
+		//if (arr) delete[] arr;
 	};
 
 	T& operator[](int n)
@@ -49,7 +37,6 @@ struct Array //: public Arrayinterface<T>
 		if (n >= 0 && n < length)
 			return arr[n];
 	}
-
 	Array<T>& operator=(Array<T>& other)
 	{
 		if (this->arr) delete[] this->arr;
@@ -65,7 +52,6 @@ struct Array //: public Arrayinterface<T>
 template<typename T>
 struct ArrayStack
 {
-
 	ArrayStack() :n(0) {}
 	~ArrayStack()
 	{
@@ -83,7 +69,6 @@ private:
 			return a[i];
 		}
 	}
-
 	void Set(int i, T t)
 	{
 		if (i >= 0 && i < n)
@@ -91,23 +76,23 @@ private:
 			a[i] = t;
 		}
 	}
-
 	void Add(int i, T t)
 	{
 		if (n + 1 > a.length)
 			Resize();
 
 		// Traditional Way : for loop
-		// for (int j = n; j > i; --j)
+		//for (int j = n; j > i; --j)
 		//	a[j] = a[j - 1];
 
-		// copy_backward(a + i, a + n, a + n + 1);
+		// Fase Way using std :: copy 
+		//copy_backward(a.arr + i, a.arr + n, a.arr + n + 1);
+		copy(a.arr + i, a.arr + n, a.arr + i - 1);
 
 		a[i] = t;
 		
 		++n;
 	}
-
 	void Remove(int i)
 	{
 		for ( int j = i; j < n ; ++j )
@@ -119,25 +104,22 @@ private:
 		if (a.length > 3*n)
 			Resize();
 	}
-
 	void Resize()
 	{
 		Array<T> b(max(2 * n, 1));
 
 		// Traditional Copy using for loop
-		for (int i = 0; i < n; ++i)
-			b[i] = a[i];
+		//for (int i = 0; i < n; ++i)
+		//	b[i] = a[i];
 
 		// fast copy using std::copy
-		//std::copy(a+0, a+n, b+0);
+		std::copy(a.arr, a.arr+n, b.arr);
 
 		a = b;
 	}
 
 public:
-
 	int Size(){ return n; }
-
 	bool empty()
 	{
 		if (n == 0)
@@ -145,17 +127,14 @@ public:
 		else
 			return false;
 	}
-	
 	void push(T t)
 	{
 		Add(n, t);
 	}
-
 	void pop()
 	{
 		Remove(n - 1);
 	}
-
 	T top()
 	{
 		return Get(n - 1);
