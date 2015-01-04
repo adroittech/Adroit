@@ -25,8 +25,8 @@ string fun2(string s)
 }
 int _tmain(int argc, _TCHAR* argv[])
 {
-	string	numbers[] = {"0","1","2","3","4","5","6","7","8","9"};
-	string	numbers2[] = { "0", "0", "0", "0", "0", "0", "0", "0", "0", "0" };
+	string	numbers[]	= {"0","1","2","3","4","5","6","7","8","9"};
+	string	numbers2[]	= {"0","0","0","0","0","0","0","0","0","0"};
 
 	// uncomment any of the following
 	// std::copy , std::copy_backward
